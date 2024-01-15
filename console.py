@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] is '{' and pline[-1] is '}' \
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -118,10 +118,40 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+
+        splits = args.split(" ")
+        if splits[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+        new_instance = HBNBCommand.classes[splits[0]]()
+        for i in range(len(splits)):
+            if i != 0:
+                elements = splits[i].split('=')
+                fail = False
+
+                # String check
+                if elements[1][0] == '"' and elements[1][-1] == '"':
+                    for j in range(len(elements[1][1:-1])):
+                        if elements[1][1:-1][j] is '"' and \
+                                elements[1][1:-1][j - 1] != '\\':
+                            fail = True
+                            break
+                    if not fail:
+                        elements[1] = elements[1].replace("_", " ")
+                        setattr(new_instance, elements[0], elements[1][1:-1])
+                elif '.' in elements[1]:  # Float Check
+                    try:
+                        f = float(elements[1])
+                        setattr(new_instance, elements[0], f)
+                    except ValueError:
+                        pass
+                else:  # Integer Check
+                    try:
+                        num = int(elements[1])
+                        setattr(new_instance, elements[0], num)
+                    except ValueError:
+                        pass
+        print(new_instance)
         storage.save()
         print(new_instance.id)
         storage.save()
@@ -319,6 +349,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
