@@ -130,15 +130,9 @@ class HBNBCommand(cmd.Cmd):
                 fail = False
 
                 # String check
-                if elements[1][0] == '"' and elements[1][-1] == '"':
-                    for j in range(len(elements[1][1:-1])):
-                        if elements[1][1:-1][j] is '"' and \
-                                elements[1][1:-1][j - 1] != '\\':
-                            fail = True
-                            break
-                    if not fail:
-                        elements[1] = elements[1].replace("_", " ")
-                        setattr(new_instance, elements[0], elements[1][1:-1])
+                if elements[1].startswith('"') and elements[1].endswith('"'):
+                    elements[1] = elements[1].replace('_', ' ').replace('\\"', '"')
+                    setattr(new_instance, elements[0], elements[1][1:-1])
                 elif '.' in elements[1]:  # Float Check
                     try:
                         f = float(elements[1])
