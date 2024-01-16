@@ -131,7 +131,8 @@ class HBNBCommand(cmd.Cmd):
 
                 # String check
                 if elements[1].startswith('"') and elements[1].endswith('"'):
-                    elements[1] = elements[1].replace('_', ' ').replace('\\"', '"')
+                    elements[1] = elements[1].replace('_', ' ') \
+                            .replace('\\"', '"')
                     setattr(new_instance, elements[0], elements[1][1:-1])
                 elif '.' in elements[1]:  # Float Check
                     try:
