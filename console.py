@@ -123,12 +123,11 @@ class HBNBCommand(cmd.Cmd):
         if splits[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        attributes = {}
         new_instance = HBNBCommand.classes[splits[0]]()
         for i in range(len(splits)):
             if i != 0:
                 elements = splits[i].split('=')
-                fail = False
-
                 # String check
                 if elements[1].startswith('"') and elements[1].endswith('"'):
                     elements[1] = elements[1].replace('_', ' ') \
