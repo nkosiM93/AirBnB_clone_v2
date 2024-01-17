@@ -2,12 +2,25 @@
 
 import os
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
+import urllib.parse
+
+from models.base_model import BaseModel, Base
+from models.state import State
+from models.city import City
+from models.user import User
+from models.place import Place, place_amenity
+from models.amenity import Amenity
+from models.review import Review
+
 
 class DBStorage:
     """The engine for storing data in a database"""
 
     __engine = None
     __session = None
+    metadata = None
+
 
     def __init__(self):
         self.__engine = create_engine('mysql+mysqldb://'
@@ -17,4 +30,34 @@ class DBStorage:
                                       f"{os.get_env(HBNB_MYSQL_DB)}, "
                                       "pool_pre_ping=True")
         if os.get_env('HBNB_ENV') == 'test':
-            drop_all(self.__engine)
+            MetaData(drop_all(self.__engine))
+        
+    def all(self, cls=None):
+        """dictionary of models present in storage"""
+        objects = dict()
+        Session = sessionmaker(bind=self.__engine)
+        __session = Session()
+        all_classes = (User, State, City, Amenity, Place, Review)
+        if cls is None:
+            for class_type in all_classes:
+                query = __session.query(class_type)
+                for obj in query.all():
+                    obj_key = '{}.{}'.format(obj.__class__.__name__, obj.id)
+                    objects[obj_key] = obj
+
+        else:
+            query = __session.query(cls)
+            for obj in query.all():
+                obj_key = '{}.{}'.format(obj.__class__.__name__, obj.id)
+                objects[obj_key] = obj
+        return objects
+
+    def new(self, obj):
+        """Adding New objects to DB"""
+        
+
+
+
+
+
+    s
