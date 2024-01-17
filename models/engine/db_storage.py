@@ -22,6 +22,8 @@ class DBStorage:
 
 
     def __init__(self):
+        
+        """Initializes the SQL database storage"""
         self.__engine = create_engine('mysql+mysqldb://'
                                       f"{os.getenv('HBNB_MYSQL_USER')}:"
                                       f"{os.getenv('HBNB_MYSQL_PWD')}"
