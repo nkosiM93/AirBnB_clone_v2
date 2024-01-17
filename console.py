@@ -124,7 +124,9 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         attributes = {}
+        print(splits)
         new_instance = HBNBCommand.classes[splits[0]]()
+        print(new_instance.id)
         for i in range(len(splits)):
             if i != 0:
                 elements = splits[i].split('=')
@@ -229,14 +231,7 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
-        else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
-
-        print(print_list)
+            print(list(storage.all(cls=HBNBCommand.classes[args]).values()))
 
     def help_all(self):
         """ Help information for the all command """

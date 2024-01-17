@@ -10,11 +10,16 @@ Base = declarative_base()
 
 class BaseModel:
     """A base class for all hbnb models"""
+
+    id = Column(String(128), primary_key=True, nullable=False, default=str(uuid.uuid4()))
+    created_at = Column(DateTime, nullable=False, default=datetime.now())
+    updated_at = Column(DateTime, nullable=False, default=datetime.now())
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
             from models import storage
-            self.id = Column(String, primary_key=True, nullable=False)
+            self.id = Column(String(128), primary_key=True, nullable=False, default=str(uuid.uuid4()))
             self.created_at = Column(DateTime,
                                      nullable=False, default=datetime.now())
             self.updated_at = Column(DateTime,
@@ -27,7 +32,6 @@ class BaseModel:
             for k, v in kwargs.items():
                 if getattr(self, k) != v:
                     setattr(self, k, v)
-
             del kwargs['__class__']
             self.__dict__.update(kwargs)
 
@@ -57,3 +61,4 @@ class BaseModel:
 
     def delete(self):
         storage.delete(self)
+
