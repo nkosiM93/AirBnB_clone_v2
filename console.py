@@ -124,9 +124,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         attributes = {}
-        print(splits)
         new_instance = HBNBCommand.classes[splits[0]]()
-        print(new_instance.id)
         for i in range(len(splits)):
             if i != 0:
                 elements = splits[i].split('=')
