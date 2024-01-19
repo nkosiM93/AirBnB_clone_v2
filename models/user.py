@@ -7,10 +7,10 @@ from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 
 
-class User(BaseModel, Base):
+class User(BaseModel): # , Base):
     """This class defines a user by various attributes"""
     __tablename__ = 'users'
-    email = Column(
+    """email = Column(
         String(128), nullable=False
     ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else ''
     password = Column(
@@ -31,4 +31,8 @@ class User(BaseModel, Base):
         'Review',
         cascade="all, delete, delete-orphan",
         backref='user'
-    ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else None
+    ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else None"""
+    email = ""
+    password = ""
+    first_name = ""
+    last_name = ""

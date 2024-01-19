@@ -29,7 +29,7 @@ class FileStorage:
         else:
             filtered_dict = {}
             for key, value in self.__objects.items():
-                if type(value) is cls:
+                if isinstance(value, cls):
                     filtered_dict[key] = value
             return filtered_dict
 
