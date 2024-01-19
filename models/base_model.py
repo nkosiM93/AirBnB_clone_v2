@@ -23,7 +23,6 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
         else:
             for key, value in kwargs.items():
                 if key != '__class__':
@@ -39,6 +38,7 @@ class BaseModel:
             if not hasattr(kwargs, 'updated_at'):
                 setattr(self, 'updated_at', datetime.now())
 
+
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
@@ -53,7 +53,7 @@ class BaseModel:
         """Updates updated_at with current time when instance is changed"""
         from models import storage
         self.updated_at = datetime.now()
-        # storage.new(self)
+        storage.new(self)
         storage.save()
 
     def to_dict(self):

@@ -8,19 +8,16 @@ from models.base_model import BaseModel, Base
 from models.city import City
 
 
-class State(BaseModel):
+class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
-    """name = Column(
-        String(128), nullable=False
-    ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else ''
+    
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        cities = relationship(
-            'City',
-            cascade='all, delete, delete-orphan',
-            backref='state'
-        )
+        name = Column(String(128), nullable=False)
+        cities = relationship('City', cascade='all, delete, delete-orphan',
+                              backref='state')
     else:
+        name = ''
         @property
         def cities(self):
             from models import storage
@@ -28,5 +25,4 @@ class State(BaseModel):
             for value in storage.all(City).values():
                 if value.state_id == self.id:
                     cities_in_state.append(value)
-            return cities_in_state"""
-    name = ""
+            return cities_in_state
