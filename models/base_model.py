@@ -38,7 +38,6 @@ class BaseModel:
             if not hasattr(kwargs, 'updated_at'):
                 setattr(self, 'updated_at', datetime.now())
 
-
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
@@ -66,4 +65,6 @@ class BaseModel:
                 else:
                     res[key] = value
         res['__class__'] = self.__class__.__name__
+        if not res.get('_sa_instance_state', None) is None:
+            del res['_sa_instance_state']
         return res
